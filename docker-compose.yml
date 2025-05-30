@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  backend:
+    build: ./backend
+    container_name: assetrax-backend
+    restart: always
+    ports:
+      - '5010:5000'  # Host:Container
+    env_file:
+      - .env
+    networks:
+      - assetrax-network
+
+  mongodb:
+    image: mongo
+    container_name: assetrax-mongo
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - assetrax-data:/data/db
+    ports:
+      - '27040:27017'  # Host:Container
+    networks:
+      - assetrax-network
+
+networks:
+  assetrax-network:
+    driver: bridge
+
+volumes:
+  assetrax-data:
